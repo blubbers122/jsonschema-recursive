@@ -1,0 +1,11 @@
+Usage: jsonschema-recursive.exe [OPTIONS] <PATH>
+
+Arguments:
+  <PATH>  Path to scan recursively
+
+Options:
+      --require-schema  Fail if a JSON file has no $schema
+      --verbose         Print valid files too
+      --ignore <NAME>   Paths (folder names) to ignore
+  -h, --help            Print help
+  -V, --version         Print version
