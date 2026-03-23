@@ -5,10 +5,8 @@ use jsonschema::{Validator, validator_for};
 use rayon::prelude::*;
 use serde_json::Value;
 use std::{
-    collections::{HashMap, HashSet},
     fs,
     path::{Path, PathBuf},
-    sync::{Arc, Mutex},
 };
 use walkdir::WalkDir;
 
@@ -52,15 +50,6 @@ fn should_ignore(path: &Path, ignore_set: &GlobSet) -> bool {
 fn main() -> Result<()> {
     let args = Args::parse();
 
-    // Default ignores
-    // let mut ignore_set: HashSet<String> =
-    //     ["target", ".git"].iter().map(|s| s.to_string()).collect();
-
-    // for i in &args.ignore {
-    //     ignore_set.insert(i.clone());
-    // }
-
-    // let ignore_set = Arc::new(ignore_set);
     let mut patterns = vec!["**/.git/**".to_string(), "**/target/**".to_string()];
 
     patterns.extend(args.ignore.clone());
@@ -74,7 +63,7 @@ fn main() -> Result<()> {
         .filter_map(Result::ok)
         .filter(|entry| {
             let path = entry.path();
-            
+
             // Strip the base path so that globs can match relative paths exactly,
             // e.g., ".venv/**" will match ".\.venv\..." after stripping ".".
             let relative_path = path.strip_prefix(&args.path).unwrap_or(path);
@@ -148,24 +137,6 @@ fn process_file(path: &Path, args: &Args, cache: &DashMap<PathBuf, Validator>) -
             validator
         }
     };
-
-    // let compiled = {
-    //     // let mut cache = cache.lock().unwrap();
-    //     let mut cache = cache.lock().unwrap_or_else(|e| e.into_inner());
-
-    //     cache
-    //         .entry(schema_path.clone())
-    //         .or_insert_with(|| {
-    //             let schema_text = fs::read_to_string(&schema_path).expect("Failed to read schema");
-
-    //             let schema_json: Value =
-    //                 serde_json::from_str(&schema_text).expect("Invalid schema JSON");
-
-    //             // 👇 THIS is the new API
-    //             validator_for(&schema_json).expect("Invalid schema")
-    //         })
-    //         .clone()
-    // };
 
     if let Err(error) = compiled.validate(&json) {
         println!("❌ {}", path.display());

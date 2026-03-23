@@ -2,6 +2,12 @@
 name = "jsonschema-recursive"
 version = "0.1.0"
 edition = "2024"
+description = "A high-performance command-line tool to recursively scan directories for JSON files and validate them against their defined $schema."
+repository = "https://github.com/blubbers122/jsonschema-recursive"
+license = "MIT"
+readme = "README.md"
+keywords = ["jsonschema", "json", "validation", "cli"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 walkdir = "2"
