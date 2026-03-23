@@ -15,6 +15,12 @@ A high-performance command-line tool written in Rust to recursively scan directo
 
 You need [Rust and Cargo](https://rustup.rs/) installed on your machine.
 
+### Installation
+
+```bash
+cargo install jsonschema-recursive
+```
+
 ### Building from Source
 
 1. Clone or download this repository.
